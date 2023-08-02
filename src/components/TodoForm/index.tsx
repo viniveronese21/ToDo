@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "../Button";
+import { PlusCircleIcon } from "@heroicons/react/24/outline";
 
 interface ToDoFormProps {
   addTodo: (text: string, category: string) => void;
@@ -22,8 +23,6 @@ export function ToDoForm({ addTodo }: ToDoFormProps) {
 
   return(
     <>
-      <h2 className="text-2xl font-bold underline">Criar Tarefa: </h2>
-
       <form className="mt-8 mb-4 flex flex-col gap-4" onSubmit={handleSubmit}>
         <input
           type="text"
@@ -45,7 +44,10 @@ export function ToDoForm({ addTodo }: ToDoFormProps) {
         </select>
 
         <div>
-          <Button label="Adicionar tarefa" />
+          <Button tipo="default">
+            Criar
+            <PlusCircleIcon className="w-6"/>
+          </Button>
         </div>
 
       </form>

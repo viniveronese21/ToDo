@@ -3,6 +3,8 @@ import { useState, useEffect } from "react"
 import { Todo } from "./components/Todo"
 import { ToDoForm } from "./components/TodoForm"
 import { BadgeAlert } from "./components/BadgeAlert"
+import { ClipboardDocumentListIcon } from "@heroicons/react/24/outline"
+import { Header } from "./components/Header"
 
 interface NewItemProps {
   id: number
@@ -15,7 +17,6 @@ export default function App() {
   const [todo, setTodo] = useState<NewItemProps[]>([])
 
   const completedTodos = todo.filter(item => item.isComplete).length
-
 
   function addToDo(text: string, category: string) {
     const newToDo = [...todo, {
@@ -43,8 +44,6 @@ export default function App() {
     setTodo(newTodos)
   }
 
-
-
   useEffect(() => {
    const setStored = localStorage.getItem('todo')
 
@@ -61,13 +60,14 @@ export default function App() {
 
   return (
     <div>
-     <div className="bg-white py-5 px-8 max-w-[600px] rounded-xl my-8 mx-auto">
+     <Header/>
+     <div className="bg-white py-5 px-8 max-w-[736px] rounded-xl -mt-8 mb-12 mx-auto">
 
       <ToDoForm addTodo={addToDo}/>
 
       <div className="flex justify-between mb-2">
         <span>Tarefas criadas: {todo.length}</span>
-        <span>Concluidas: {completedTodos}</span>
+        <span>Concluidas: {todo.length ? <span>{completedTodos} de {todo.length}</span> : todo.length}</span>
       </div>
 
       <div className="border-t-2 border-gray-500">
@@ -78,7 +78,9 @@ export default function App() {
             </div>
           )
         }) :
-        <BadgeAlert text="Voce ainda nao possui tarefas!"/>
+        <BadgeAlert text="Você ainda não tem tarefas cadastradas!">
+          <ClipboardDocumentListIcon className="w-12 text-gray-500" />
+        </BadgeAlert>
       }
       </div>
      </div>

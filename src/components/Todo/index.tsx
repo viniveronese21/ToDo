@@ -1,4 +1,6 @@
+import { CheckCircleIcon, TrashIcon } from "@heroicons/react/24/outline"
 import { Button } from "../Button"
+import { CheckCircleIcon as CheckedIcon } from "@heroicons/react/24/solid"
 
 interface ToDoProps{
   item: {
@@ -13,15 +15,23 @@ interface ToDoProps{
 
 export function Todo({item, remove, complete}: ToDoProps) {
   return (
-    <div className="bg-gray-100 flex justify-between items-center px-3 py-6 rounded-xl mb-3">
-      <div className={`${item.isComplete? 'line-through': ''}`}>
-        <p className="text-gray-600 mb-2">{item.text}</p>
-        <p className="text-gray-500">({item.category})</p>
-      </div>
-      <div className="flex gap-1">
-        <Button label="Completar" onClick={()=> complete(item.id)}/>
-        <Button label="x" tipo onClick={() => remove(item.id)}/>
-      </div>
+    <div className="bg-gray-500 flex items-center  justify-between px-3 py-6 rounded-xl mb-3 flex-nowrap">
+          <Button onClick={()=> complete(item.id)}>
+            {
+              item.isComplete? <CheckedIcon className='h-6 text-emerald-500'/>
+              :  <CheckCircleIcon className="h-6 text-emerald-500" />
+            }
+          </Button>
+
+          <div className={`${item.isComplete? 'line-through': ''} text-white ml-2 w-full`}>
+            <p>{item.text}</p>
+            <p>({item.category})</p>
+          </div>
+
+          <Button onClick={() => remove(item.id)}>
+            <TrashIcon className="w-6 text-white hover:text-red-300 transition-colors"/>
+          </Button>
+
     </div>
   )
 }
