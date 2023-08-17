@@ -13,7 +13,7 @@ export function Modal ({ isOpen, onClose, children, label }: ModalProps){
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-4 rounded-md shadow-md w-[600px]">
+      <div className="bg-white p-4 rounded-md w-[600px]">
         <div className="flex items-center justify-between gap-12">
 
         <span>{label}</span>

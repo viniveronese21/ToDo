@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
 import { Button } from "../Button";
-import { PlusCircleIcon } from "@heroicons/react/24/outline";
+import { ClipboardDocumentListIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import { Modal } from "../Modal";
+import { BadgeAlert } from "../BadgeAlert";
 
 interface ToDoFormProps {
   addTodo: (text: string, category: string) => void;
@@ -15,6 +16,7 @@ interface NewCategoryProps {
 
 export function ToDoForm({ addTodo }: ToDoFormProps) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpenCategory, setModalCategoeryOpen] = useState(false);
   const [value, setValue] = useState("");
   const [category, setCategory] = useState("");
   const [newCategory, setNewCategory] = useState<NewCategoryProps[]>([]);
@@ -24,8 +26,16 @@ export function ToDoForm({ addTodo }: ToDoFormProps) {
     setModalOpen(true);
   }
 
+  function handleOpenCategoryModal() {
+    setModalCategoeryOpen(true)
+  }
+
   function handleCloseModal() {
     setModalOpen(false);
+  }
+
+  function handleCloseModalCategory() {
+    setModalCategoeryOpen(false)
   }
 
   function addCategory(category: string) {
@@ -110,15 +120,15 @@ export function ToDoForm({ addTodo }: ToDoFormProps) {
         </div>
 
         <div className="flex gap-3">
-          <Button tipo="default">
+          <Button tipo="default" type="submit">
             Criar
             <PlusCircleIcon className="w-6"/>
           </Button>
 
-          {/* <Button tipo="primary" onClick={handleOpenModal}>
-            Adicionar categoria
-            <PlusCircleIcon className="w-6"/>
-          </Button> */}
+          <Button tipo="secondary" onClick={handleOpenCategoryModal}>
+            Remover Categoria
+          </Button>
+
         </div>
 
         <Modal isOpen={modalOpen} onClose={handleCloseModal} label="Adicionar Categoria">
@@ -137,20 +147,29 @@ export function ToDoForm({ addTodo }: ToDoFormProps) {
               <PlusCircleIcon className="w-8 text-blue-500 hover:text-blue-600 transition-colors"/>
             </button>
           </div>
+        </Modal>
 
-          {newCategory && newCategory.map(({id, category}) => {
-            return (
-              <div className="flex items-center justify-between mx-1 border-t-2 py-2">
-                <span key={id}>{category}</span>
-                <button
-                  onClick={() => removeCategory(id)}
-                  className="flex items-center gap-2 text-sm text-red-500 hover:bg-red-100 rounded-md p-2 transition-colors"
-                >
-                  Remover
-                </button>
-              </div>
-            )
-          })}
+        <Modal
+          isOpen={modalOpenCategory}
+          onClose={handleCloseModalCategory}
+          label="Remover Categoria"
+        >
+          {newCategory.length ? newCategory.map(({id, category}) => {
+              return (
+                <div className="flex items-center justify-between mx-1 border-t-2 py-2">
+                  <span key={id}>{category}</span>
+                  <button
+                    onClick={() => removeCategory(id)}
+                    className="flex items-center gap-2 text-sm text-red-500 hover:bg-red-100 rounded-md p-2 transition-colors"
+                  >
+                    Remover
+                  </button>
+                </div>
+              )
+            }):
+              <BadgeAlert text="Ainda nao possui categorias customizadas!">
+                <ClipboardDocumentListIcon className="w-12 text-gray-500" />
+              </ BadgeAlert>}
         </Modal>
 
       </form>
